@@ -26,7 +26,7 @@ function drawBackground(){
   ctx.fillText(`HIGH SCORE: ${highScore} `, 550, 490)
   ctx.fillText(`SHOT CLOCK: ${shotClock} `, 550, 30)
 }
-drawBackground();
+// drawBackground();
 
 const basketballImg = new Image();
 const hoopImg = new Image();
@@ -54,3 +54,48 @@ hoopImg.onload = function(){
     // ctx.drawImage(whichImg, x, y, width, height)
     ctx.drawImage(hoopImg, hoopX, hoopY, 150, 190);
   }
+
+// Moving the hoop!
+// ----------------
+
+document.onkeydown = function(event){
+  // check console inspector to find keyCode
+  console.log(event.keyCode);
+  switch(event.keyCode){
+    // left:
+    case 37:
+      hoopX -= 10;
+      break;
+    // right:
+    case 39:
+      hoopX += 10;
+      break;
+    // up:
+    case 38: 
+      hoopY -= 10;
+      break;
+    // down:
+    case 40:
+      hoopY += 10;
+      break;
+  }
+}
+
+// Animate the Canvas / Basketball Court:
+// --------------------------------------
+function shootingHoops(){
+  ctx.clearRect(0, 0, 1000, 500);
+
+  drawBackground();
+  // move basketball by changing X coordinate in every loop call
+  basketballX -= 8;
+
+  // once the basketball disappears from the canvas:
+  if(basketballX < -33){
+    basketballX = 800;
+    basketballY = Math.floor(Math.random() * 477);
+  }
+  
+
+
+}
