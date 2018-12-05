@@ -83,7 +83,8 @@ document.onkeydown = function(event){
 
 // Animate the Canvas / Basketball Court:
 // --------------------------------------
-function shootingHoops(){
+function drawingLoop(){
+  // clear canvas
   ctx.clearRect(0, 0, 1000, 500);
 
   drawBackground();
@@ -96,6 +97,25 @@ function shootingHoops(){
     basketballY = Math.floor(Math.random() * 477);
   }
   
+  drawFullCourt();
+  if(timeOut === false){
+    // redraw the whole court with callback function
+    requestAnimationFrame(function){
+      // recursive loop
+      shootingHoops();
+    }
+  }
 
+}
 
+function drawFullCourt(){
+  // ctx.drawImage(whichImg, imgX, imgY, width, height)
+  ctx.drawImage(basketballImg, basketballX, basketballY, 33, 33);
+  ctx.drawImage(hoopImg, hoopX, hoopY, 150, 190);
+  if(checkCollision(hoopX, hoopY, basketballX, basketballY)){
+    console.log("SCORE!");
+  }
+  if (checkCollision === true){
+    score+2;
+  }
 }
