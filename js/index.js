@@ -72,11 +72,11 @@ document.onkeydown = function(event){
       break;
     // up:
     case 38: 
-      hoopY -= 10;
+      hoopY -= 20;
       break;
     // down:
     case 40:
-      hoopY += 10;
+      hoopY += 20;
       break;
   }
 }
@@ -100,10 +100,10 @@ function drawingLoop(){
   drawFullCourt();
   if(timeOut === false){
     // redraw the whole court with callback function
-    requestAnimationFrame(function){
+    requestAnimationFrame(function(){
       // recursive loop
-      shootingHoops();
-    }
+      drawingLoop();
+    })
   }
 
 }
@@ -112,10 +112,24 @@ function drawFullCourt(){
   // ctx.drawImage(whichImg, imgX, imgY, width, height)
   ctx.drawImage(basketballImg, basketballX, basketballY, 33, 33);
   ctx.drawImage(hoopImg, hoopX, hoopY, 150, 190);
-  if(checkCollision(hoopX, hoopY, basketballX, basketballY)){
+  if(swishCollision(hoopX, hoopY, basketballX, basketballY)){
     console.log("SCORE!");
   }
-  if (checkCollision === true){
-    score+2;
+  if (swishCollision === true){
+    highScore+2;
   }
 }
+
+function swishCollision(obj1X, obj1Y, obj2X, obj2Y){
+  // hoopY + hoop-height >= basketballY
+  return obj1Y + 150 - 33 >= obj2Y
+    // hoopY + basketballY + basketball-height
+    && obj1Y <= obj2Y + 33
+    // hoopX + hoop-width >= basketballX
+    && obj1X + 190 - 33 >= obj2X
+    // hoopX <= basketballX + basketball-width
+    && obj1X <= obj2X + 33
+}
+
+// call drawingLoop(); to activate/start looping!
+drawingLoop();
