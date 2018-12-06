@@ -114,7 +114,7 @@ function drawingLoop(){
       drawingLoop();
     })
   }
-
+  // setInterval(drawingLoop, 50);
 }
 
 function drawFullCourt(){
@@ -133,13 +133,32 @@ function drawFullCourt(){
   }
 }
 
-// true or false function
+// when scoring a swish. true or false function
 function swishCollision(obj1X, obj1Y, obj2X, obj2Y){
   // hoopY + hoopY-length >= basketballY && hoopY + hoopY-length <= basketballY
   return obj1Y + 100 >= obj2Y && obj1Y + 60 <= obj2Y 
   // hoopX + hoopX-length >= basketballX && hoopX + hoopX-length <= basketballX
     && obj1X + 150 >= obj2X && obj1X + 143 <= obj2X
         
+}
+
+function gameOver(){
+  // clear canvas to stop receiving basketballs
+  ctx.clearRect(0, 0, 1000, 600);
+  // redraw full court to see court
+  drawFullCourt();
+  // create Sadbron face image
+  const sadbronImg = new Image();
+  sadbronImg.src = "./images/sadbron.png";
+  sadbronImg.onload = function(){
+    ctx.drawImage(500, 270, 150, 150);
+  }
+  // change the value of timeOut to true
+  timeOut = true;
+  // display Game Over
+  ctx.font = "bold 70px Arial";
+  ctx.fillStyle = "red";
+  ctx.fillText("SHOT CLOCK VIOLATION", 400, 225);
 }
 
 // call drawingLoop(); to activate/start looping!
