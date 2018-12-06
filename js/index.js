@@ -27,8 +27,8 @@ function drawBackground(){
   // }
   ctx.fillStyle = "black"
   ctx.font = "30px Arial"
-  ctx.fillText(`HIGH SCORE: ${highScore} `, 550, 490)
-  ctx.fillText(`SHOT CLOCK: ${shotClock} `, 550, 30)
+  ctx.fillText(`HIGH SCORE: ${highScore} `, 730, 560)
+  ctx.fillText(`SHOT CLOCK: ${shotClock} `, 710, 60)
 }
 // drawBackground();
 
@@ -38,11 +38,11 @@ const hoopImg = new Image();
 basketballImg.src = "./images/basketball.png";
 hoopImg.src = "./images/hoop-backboard.png";
 
-let basketballX = 600;
-let basketballY = 200;
+let basketballX = 500;
+let basketballY = 290;
 
 let hoopX = 0;
-let hoopY = 150;
+let hoopY = 210;
 
 
 
@@ -63,14 +63,14 @@ document.onkeydown = function(event){
   // check console inspector to find keyCode
   console.log(event.keyCode);
   switch(event.keyCode){
-    // left:
-    case 37:
-      hoopX -= 10;
-      break;
-    // right:
-    case 39:
-      hoopX += 10;
-      break;
+    // // left:
+    // case 37:
+    //   hoopX -= 10;
+    //   break;
+    // // right:
+    // case 39:
+    //   hoopX += 10;
+    //   break;
     // up:
     case 38: 
       hoopY -= 15;
@@ -95,10 +95,15 @@ function drawingLoop(){
 
   // once the basketball disappears from the canvas:
   if(basketballX < -33){
-    basketballX = 800;
-    // basketballY = Math.floor(Math.random() * 477);
+    basketballX = 1000;
+    basketballY = Math.floor(Math.random() * 577);
   }
   
+  // when basketball swishes:
+  // if(swishCollision === true && basketballX < 140){
+  //   basketballX = 800;
+  // }
+
   drawFullCourt();
 
   
@@ -130,8 +135,9 @@ function drawFullCourt(){
 
 // true or false function
 function swishCollision(obj1X, obj1Y, obj2X, obj2Y){
-  // hoopY + hoopY-length >= basketballY
-  return obj1Y + 90 >= obj2Y && obj1Y + 80 <= obj2Y 
+  // hoopY + hoopY-length >= basketballY && hoopY + hoopY-length <= basketballY
+  return obj1Y + 100 >= obj2Y && obj1Y + 60 <= obj2Y 
+  // hoopX + hoopX-length >= basketballX && hoopX + hoopX-length <= basketballX
     && obj1X + 150 >= obj2X && obj1X + 143 <= obj2X
         
 }
