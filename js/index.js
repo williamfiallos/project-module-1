@@ -12,8 +12,8 @@ let timeOut = false;
 const courtImg = new Image();
 courtImg.src = "./images/full-court-wood.png";
 
-let courtX = 800;
-let courtY = 500;
+let courtX = 0;
+let courtY = 0;
 
 function drawBackground(){
   // ctx.drawImage(courtImg, courtX, courtY);
@@ -21,6 +21,10 @@ function drawBackground(){
   // ctx.fillRect(0, 0, 800, 500);
   // High score board:
   // Shot clock timer:
+  // courtImg.onload = function(){
+    // ctx.drawImage(whichImg, x, y, width, height)
+    ctx.drawImage(courtImg, courtX, courtY, 1000, 600);
+  // }
   ctx.fillStyle = "black"
   ctx.font = "30px Arial"
   ctx.fillText(`HIGH SCORE: ${highScore} `, 550, 490)
@@ -40,10 +44,7 @@ let basketballY = 200;
 let hoopX = 0;
 let hoopY = 150;
 
-courtImg.onload = function(){
-  // ctx.drawImage(whichImg, x, y, width, height)
-  ctx.drawImage(courtImg, courtX, courtY, 800, 500);
-}
+
 
 basketballImg.onload = function(){
     // ctx.drawImage(whichImg, x, y, width, height)
@@ -72,20 +73,21 @@ document.onkeydown = function(event){
       break;
     // up:
     case 38: 
-      hoopY -= 20;
+      hoopY -= 15;
       break;
     // down:
     case 40:
-      hoopY += 20;
+      hoopY += 15;
       break;
   }
+  // console.log("hoopX: ", hoopX, "hoopY: ", hoopY);
 }
 
 // Animate the Canvas / Basketball Court:
 // --------------------------------------
 function drawingLoop(){
   // clear canvas
-  ctx.clearRect(0, 0, 1000, 500);
+  ctx.clearRect(0, 0, 1000, 600);
 
   drawBackground();
   // move basketball by changing X coordinate in every loop call
@@ -94,10 +96,12 @@ function drawingLoop(){
   // once the basketball disappears from the canvas:
   if(basketballX < -33){
     basketballX = 800;
-    basketballY = Math.floor(Math.random() * 477);
+    // basketballY = Math.floor(Math.random() * 477);
   }
   
   drawFullCourt();
+
+  
   if(timeOut === false){
     // redraw the whole court with callback function
     requestAnimationFrame(function(){
@@ -112,23 +116,24 @@ function drawFullCourt(){
   // ctx.drawImage(whichImg, imgX, imgY, width, height)
   ctx.drawImage(basketballImg, basketballX, basketballY, 33, 33);
   ctx.drawImage(hoopImg, hoopX, hoopY, 150, 190);
+  // if(hoopY + 90 >= basketballY && hoopY + 80 <= basketballY){
+  //   console.log("hoopY: "+hoopY, "basketballY: "+basketballY);
+  // }
+
   if(swishCollision(hoopX, hoopY, basketballX, basketballY)){
     console.log("SCORE!");
   }
-  if (swishCollision === true){
-    highScore+2;
+  if (swishCollision(hoopX, hoopY, basketballX, basketballY)){
+    highScore+=2;
   }
 }
 
+// true or false function
 function swishCollision(obj1X, obj1Y, obj2X, obj2Y){
-  // hoopY + hoop-height >= basketballY
-  return obj1Y + 150 - 33 >= obj2Y
-    // hoopY + basketballY + basketball-height
-    && obj1Y <= obj2Y + 33
-    // hoopX + hoop-width >= basketballX
-    && obj1X + 190 - 33 >= obj2X
-    // hoopX <= basketballX + basketball-width
-    && obj1X <= obj2X + 33
+  // hoopY + hoopY-length >= basketballY
+  return obj1Y + 90 >= obj2Y && obj1Y + 80 <= obj2Y 
+    && obj1X + 150 >= obj2X && obj1X + 143 <= obj2X
+        
 }
 
 // call drawingLoop(); to activate/start looping!
