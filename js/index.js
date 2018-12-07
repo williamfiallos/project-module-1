@@ -162,4 +162,8 @@ function gameOver(){
 }
 
 // call drawingLoop(); to activate/start looping!
+function startGame(){
+  shotClock--;
+}
+
 drawingLoop();
