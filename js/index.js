@@ -16,15 +16,10 @@ let courtX = 0;
 let courtY = 0;
 
 function drawBackground(){
-  // ctx.drawImage(courtImg, courtX, courtY);
-  // ctx.fillStyle = "beige";
-  // ctx.fillRect(0, 0, 800, 500);
-  // High score board:
-  // Shot clock timer:
-  // courtImg.onload = function(){
-    // ctx.drawImage(whichImg, x, y, width, height)
-    ctx.drawImage(courtImg, courtX, courtY, 1000, 600);
-  // }
+  // ctx.drawImage(whichImg, x, y, width, height)
+  ctx.drawImage(courtImg, courtX, courtY, 1000, 600);
+  // ctx.drawImage(basketballImg, basketballX, basketballY, 33, 33);
+  // ctx.drawImage(hoopImg, hoopX, hoopY, 150, 190);
   ctx.fillStyle = "black"
   ctx.font = "30px Arial"
   ctx.fillText(`HIGH SCORE: ${highScore} `, 730, 560)
@@ -46,15 +41,15 @@ let hoopY = 210;
 
 
 
-basketballImg.onload = function(){
-    // ctx.drawImage(whichImg, x, y, width, height)
-    ctx.drawImage(basketballImg, basketballX, basketballY, 33, 33);
-  }
+// basketballImg.onload = function(){
+//     // ctx.drawImage(whichImg, x, y, width, height)
+//     ctx.drawImage(basketballImg, basketballX, basketballY, 33, 33);
+//   }
 
-hoopImg.onload = function(){
-    // ctx.drawImage(whichImg, x, y, width, height)
-    ctx.drawImage(hoopImg, hoopX, hoopY, 150, 190);
-  }
+// hoopImg.onload = function(){
+//     // ctx.drawImage(whichImg, x, y, width, height)
+//     ctx.drawImage(hoopImg, hoopX, hoopY, 150, 190);
+//   }
 
 // Moving the hoop!
 // ----------------
@@ -96,15 +91,15 @@ function drawingLoop(){
   // once the basketball disappears from the canvas:
   if(basketballX < -33){
     basketballX = 1000;
-    basketballY = Math.floor(Math.random() * 577);
-  }
-  
-  // when basketball swishes:
-  // if(swishCollision === true && basketballX < 140){
-  //   basketballX = 800;
+    // basketballY = Math.floor(Math.random() * 577);
+  } // else if {
+  //   swishCollision(){
+  //   basketballX = 1000;
+  //   basketballY = Math.floor(Math.random() * 577);
+  //   }
   // }
 
-  drawFullCourt();
+  drawEverything();
   
   if(timeOut === false){
     // redraw the whole court with callback function
@@ -118,57 +113,58 @@ function drawingLoop(){
   // setInterval(drawingLoop, 50);
 }
 
-let startTimer = setInterval(function(){
-  shotClock-=1;
-  if(shotClock <=1){
-    gameOver;
-  }
-}, 1000)
-
-
-function drawFullCourt(){
+function drawEverything(){
   // ctx.drawImage(whichImg, imgX, imgY, width, height)
   ctx.drawImage(basketballImg, basketballX, basketballY, 33, 33);
   ctx.drawImage(hoopImg, hoopX, hoopY, 150, 190);
-  // if(hoopY + 90 >= basketballY && hoopY + 80 <= basketballY){
-  //   console.log("hoopY: "+hoopY, "basketballY: "+basketballY);
-  // }
-
-  if(swishCollision(hoopX, hoopY, basketballX, basketballY)){
-    console.log("SCORE!");
-  }
-  if (swishCollision(hoopX, hoopY, basketballX, basketballY)){
+  if(swishCollision(hoopX, hoopY, basketballX, basketballY, 100, 60)){
+    // console.log("SCORE!");
     highScore+=2;
+    basketballX = -33;
+  } if(swishCollision(hoopX, hoopY, basketballX, basketballY, 170, -10)){
+    basketballX = -33;
   }
 }
 
 // when scoring a swish. true or false function
-function swishCollision(obj1X, obj1Y, obj2X, obj2Y){
+function swishCollision(obj1X, obj1Y, obj2X, obj2Y, bottomY, topY){
   // hoopY + hoopY-length >= basketballY && hoopY + hoopY-length <= basketballY
-  return obj1Y + 100 >= obj2Y && obj1Y + 60 <= obj2Y 
+  return obj1Y + bottomY >= obj2Y && obj1Y + topY <= obj2Y 
   // hoopX + hoopX-length >= basketballX && hoopX + hoopX-length <= basketballX
-    && obj1X + 150 >= obj2X && obj1X + 143 <= obj2X
-        
+    && obj1X + 110 >= obj2X && obj1X + 100 <= obj2X
 }
 
 function gameOver(){
   // clear canvas to stop receiving basketballs
   ctx.clearRect(0, 0, 1000, 600);
   // redraw full court to see court
-  drawFullCourt();
+  // drawBackground();
   // create Sadbron face image
   const sadbronImg = new Image();
   sadbronImg.src = "./images/sadbron.png";
-  sadbronImg.onload = function(){
-    ctx.drawImage(500, 270, 150, 150);
-  }
+  
+
   // change the value of timeOut to true
   timeOut = true;
   // display Game Over
-  ctx.font = "bold 70px Arial";
+  setTimeout(function(){
+  ctx.font = "bold 50px Arial";
   ctx.fillStyle = "red";
-  ctx.fillText("SHOT CLOCK VIOLATION", 400, 225);
+  ctx.fillText("GAME OVER", 340, 100);
+  ctx.drawImage(sadbronImg, 350, 130, 300, 400);
+  }, 300)
+  
+  // sadbronImg.onload = function(){
+    
+  // }
 }
+
+let startTimer = setInterval(function(){
+  shotClock--;
+  if(shotClock === 0){
+    gameOver();
+  }
+}, 1000);
 
 // call drawingLoop(); to activate/start looping!
 drawingLoop();
