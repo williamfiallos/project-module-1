@@ -105,7 +105,6 @@ function drawingLoop(){
   // }
 
   drawFullCourt();
-
   
   if(timeOut === false){
     // redraw the whole court with callback function
@@ -114,8 +113,18 @@ function drawingLoop(){
       drawingLoop();
     })
   }
+  
+  
   // setInterval(drawingLoop, 50);
 }
+
+let startTimer = setInterval(function(){
+  shotClock-=1;
+  if(shotClock <=1){
+    gameOver;
+  }
+}, 1000)
+
 
 function drawFullCourt(){
   // ctx.drawImage(whichImg, imgX, imgY, width, height)
@@ -162,8 +171,4 @@ function gameOver(){
 }
 
 // call drawingLoop(); to activate/start looping!
-function startGame(){
-  shotClock--;
-}
-
 drawingLoop();
