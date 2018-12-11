@@ -40,23 +40,35 @@ let hoopX = 0;
 let hoopY = 210;
 
 
+courtImg.onload = function(){
+  // ctx.drawImage(whichImg, x, y, width, height)
+  // ctx.drawImage(courtImg, courtX, courtY, 1000, 600);
 
-// basketballImg.onload = function(){
-//     // ctx.drawImage(whichImg, x, y, width, height)
-//     ctx.drawImage(basketballImg, basketballX, basketballY, 33, 33);
-//   }
+  drawBackground();
 
-// hoopImg.onload = function(){
-//     // ctx.drawImage(whichImg, x, y, width, height)
-//     ctx.drawImage(hoopImg, hoopX, hoopY, 150, 190);
-//   }
+  // basketballImg.onload = function(){
+      // ctx.drawImage(whichImg, x, y, width, height)
+      ctx.drawImage(basketballImg, basketballX, basketballY, 33, 33);
+  // }
+
+  // hoopImg.onload = function(){
+      // ctx.drawImage(whichImg, x, y, width, height)
+      ctx.drawImage(hoopImg, hoopX, hoopY, 150, 190);
+  // }
+  
+}
 
 // Moving the hoop!
 // ----------------
 
+let hoopUp = false;
+let hoopDown = false;
+
 document.onkeydown = function(event){
   // check console inspector to find keyCode
   console.log(event.keyCode);
+  let i = 0;
+
   switch(event.keyCode){
     // // left:
     // case 37:
@@ -68,14 +80,42 @@ document.onkeydown = function(event){
     //   break;
     // up:
     case 38: 
-      hoopY -= 15;
+      // hoopY -= 15;
+      hoopUp = true;
       break;
     // down:
     case 40:
-      hoopY += 15;
+      // hoopY += 15;
+      hoopDown = true;
       break;
   }
   // console.log("hoopX: ", hoopX, "hoopY: ", hoopY);
+}
+document.onkeyup = function(event){
+  // check console inspector to find keyCode
+  console.log(event.keyCode);
+  let i = 0;
+
+  switch(event.keyCode){
+    // // left:
+    // case 37:
+    //   hoopX -= 10;
+    //   break;
+    // // right:
+    // case 39:
+    //   hoopX += 10;
+    //   break;
+    // up:
+    case 38: 
+      // hoopY -= 15;
+      hoopUp = false;
+      break;
+    // down:
+    case 40:
+      // hoopY += 15;
+      hoopDown = false;
+      break;
+  }
 }
 
 // Animate the Canvas / Basketball Court:
@@ -88,16 +128,20 @@ function drawingLoop(){
   // move basketball by changing X coordinate in every loop call
   basketballX -= 8;
 
+  switch(true){
+    case hoopUp:
+    hoopY -= 8;
+    break;
+    case hoopDown:
+    hoopY += 8;
+    break;
+  } 
+
   // once the basketball disappears from the canvas:
   if(basketballX < -33){
     basketballX = 1000;
-    // basketballY = Math.floor(Math.random() * 577);
-  } // else if {
-  //   swishCollision(){
-  //   basketballX = 1000;
-  //   basketballY = Math.floor(Math.random() * 577);
-  //   }
-  // }
+    basketballY = Math.floor(Math.random() * 577);
+  } 
 
   drawEverything();
   
@@ -167,4 +211,10 @@ let startTimer = setInterval(function(){
 }, 1000);
 
 // call drawingLoop(); to activate/start looping!
-drawingLoop();
+// drawBackground();
+// drawingLoop();
+
+// JUMP BALL! BUTTON (Start Game)
+// ------------------------------
+let button = document.getElementById("button");
+button.onclick = drawingLoop;

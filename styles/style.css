@@ -2,6 +2,17 @@ canvas {
   border: 15px solid royalblue;
 }
 
-button {
-
-}
+/* #button {
+  background-color: rgb(67, 163, 230);
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  color: #fff;
+  display: block;
+  font-family: 'Arial';
+  font-size: 2em;
+  letter-spacing: 0.5px;
+  margin: 40px auto 0;
+  padding: 14px 20px;
+  text-align: center;
+  text-decoration: none;
+  width: 150px;
+} */
