@@ -10,7 +10,7 @@ let timeOut = false;
 
 // basketball court background image:
 const courtImg = new Image();
-courtImg.src = "./images/full-court-wood.png";
+courtImg.src = "./images/miami-heat.png";
 
 let courtX = 0;
 let courtY = 0;
@@ -22,8 +22,8 @@ function drawBackground(){
   // ctx.drawImage(hoopImg, hoopX, hoopY, 150, 190);
   ctx.fillStyle = "black"
   ctx.font = "30px Arial"
-  ctx.fillText(`HIGH SCORE: ${highScore} `, 730, 560)
-  ctx.fillText(`SHOT CLOCK: ${shotClock} `, 710, 60)
+  ctx.fillText(`HIGH SCORE: ${highScore} `, 730, 550)
+  ctx.fillText(`SHOT CLOCK: ${shotClock} `, 710, 70)
 }
 // drawBackground();
 
@@ -33,7 +33,7 @@ const hoopImg = new Image();
 basketballImg.src = "./images/basketball.png";
 hoopImg.src = "./images/hoop-backboard.png";
 
-let basketballX = 500;
+let basketballX = 485;
 let basketballY = 290;
 
 let hoopX = 0;
@@ -194,7 +194,7 @@ function gameOver(){
   setTimeout(function(){
   ctx.font = "bold 50px Arial";
   ctx.fillStyle = "red";
-  ctx.fillText("GAME OVER", 340, 100);
+  ctx.fillText("GAME OVER", 340, 90);
   ctx.drawImage(sadbronImg, 350, 130, 300, 400);
   }, 300)
   
@@ -218,3 +218,5 @@ let startTimer = setInterval(function(){
 // ------------------------------
 let button = document.getElementById("button");
 button.onclick = drawingLoop;
+
+// found bug of shot clock running prior to clicking on Jump Ball!
