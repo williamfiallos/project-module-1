@@ -130,12 +130,15 @@ function drawingLoop(){
 
   switch(true){
     case hoopUp:
-    hoopY -= 8;
+    if(hoopY > -70){
+    hoopY -= 8};
     break;
     case hoopDown:
-    hoopY += 8;
+    if(hoopY < 480){
+    hoopY += 8};
     break;
   } 
+  
 
   // once the basketball disappears from the canvas:
   if(basketballX < -33){
@@ -209,10 +212,6 @@ let startTimer = setInterval(function(){
     gameOver();
   }
 }, 1000);
-
-if(hoopY === -190 {
-  hoopY = 190
-});
 
 // call drawingLoop(); to activate/start looping!
 // drawBackground();
