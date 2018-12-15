@@ -14,6 +14,7 @@ canvas {
 
 p {
   font-size: 1.5em;
+  color: white;
 }
 
 h1, h2, h3, h4, h5 {
@@ -40,6 +41,7 @@ h3 {
 
 h4 {
   font-size: 1.5em;
+  color: white;
   text-align: center;
   letter-spacing: 0.4px;
   margin: 0px 0px 15px 0px;
@@ -84,6 +86,7 @@ h5 {
   /* position: absolute; */
   left: 10%;
   bottom: 15vh;
+  color: white;
 }
 
 #button {
