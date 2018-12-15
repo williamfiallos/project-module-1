@@ -210,6 +210,10 @@ let startTimer = setInterval(function(){
   }
 }, 1000);
 
+if(hoopY === -190 {
+  hoopY = 190
+});
+
 // call drawingLoop(); to activate/start looping!
 // drawBackground();
 // drawingLoop();
