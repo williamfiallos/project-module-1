@@ -7,6 +7,12 @@ const ctx = myCanvas.getContext("2d");
 let highScore = 0;
 let shotClock = 24;
 let timeOut = false;
+let startTimer = setInterval(function(){
+  shotClock--;
+  if(shotClock === 0){
+    gameOver();
+  }
+}, 1000);
 
 // basketball court background image:
 const courtImg = new Image();
@@ -124,8 +130,6 @@ function drawingLoop(){
   // clear canvas
   ctx.clearRect(0, 0, 1000, 600);
 
-  startTimer; 
-  
   drawBackground();
   // move basketball by changing X coordinate in every loop call
   basketballX -= 8;
@@ -142,7 +146,8 @@ function drawingLoop(){
   } 
   
 
-  // once the basketball disappears from the canvas:
+  // once the basketball disappears from the canvas, 
+  // enter new balls randomly:
   if(basketballX < -33){
     basketballX = 1000;
     basketballY = Math.floor(Math.random() * 577);
@@ -157,9 +162,6 @@ function drawingLoop(){
       drawingLoop();
     })
   }
-  
-  
-  // setInterval(drawingLoop, 50);
 }
 
 function drawEverything(){
@@ -167,7 +169,7 @@ function drawEverything(){
   ctx.drawImage(basketballImg, basketballX, basketballY, 33, 33);
   ctx.drawImage(hoopImg, hoopX, hoopY, 150, 190);
   if(swishCollision(hoopX, hoopY, basketballX, basketballY, 100, 60)){
-    // console.log("SCORE!");
+    // console.log("SCORE!"); to test if it works
     highScore+=2;
     basketballX = -33;
   } if(swishCollision(hoopX, hoopY, basketballX, basketballY, 170, -10)){
@@ -175,7 +177,7 @@ function drawEverything(){
   }
 }
 
-// when scoring a swish. true or false function
+// when scoring a swish. This is a true or false function
 function swishCollision(obj1X, obj1Y, obj2X, obj2Y, bottomY, topY){
   // hoopY + hoopY-length >= basketballY && hoopY + hoopY-length <= basketballY
   return obj1Y + bottomY >= obj2Y && obj1Y + topY <= obj2Y 
@@ -197,9 +199,9 @@ function gameOver(){
   timeOut = true;
   // display Game Over
   setTimeout(function(){
-  ctx.font = "bold 50px Arial";
-  ctx.fillStyle = "red";
-  ctx.fillText("GAME OVER", 340, 90);
+  ctx.font = "bold 50px Roboto Condensed";
+  ctx.fillStyle = "rgb(1, 183, 255)";
+  ctx.fillText("GAME OVER", 375, 90);
   ctx.drawImage(sadbronImg, 350, 130, 300, 400);
   }, 300)
   
@@ -207,13 +209,6 @@ function gameOver(){
     
   // }
 }
-
-let startTimer = setInterval(function(){
-  shotClock--;
-  if(shotClock === 0){
-    gameOver();
-  }
-}, 1000);
 
 // call drawingLoop(); to activate/start looping!
 // drawBackground();
