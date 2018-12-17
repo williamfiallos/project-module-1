@@ -124,6 +124,8 @@ function drawingLoop(){
   // clear canvas
   ctx.clearRect(0, 0, 1000, 600);
 
+  startTimer; 
+  
   drawBackground();
   // move basketball by changing X coordinate in every loop call
   basketballX -= 8;
