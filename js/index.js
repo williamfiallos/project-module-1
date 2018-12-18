@@ -3,16 +3,29 @@ const myCanvas = document.getElementById("my-canvas");
 const ctx = myCanvas.getContext("2d");
   // console.log(ctx); //test if connected
 
+
+
+  
 // global variables:
 let highScore = 0;
 let shotClock = 24;
 let timeOut = false;
-let startTimer = setInterval(function(){
+let startTimer;
+
+
+
+
+function shotClockTimer(){
+  startTimer = setInterval(function(){
   shotClock--;
   if(shotClock === 0){
     gameOver();
+    clearInterval(startTimer);
   }
-}, 1000);
+}, 1000);}
+
+
+
 
 // basketball court background image:
 const courtImg = new Image();
@@ -26,11 +39,13 @@ function drawBackground(){
   ctx.drawImage(courtImg, courtX, courtY, 1000, 600);
   // ctx.drawImage(basketballImg, basketballX, basketballY, 33, 33);
   // ctx.drawImage(hoopImg, hoopX, hoopY, 150, 190);
+  ctx.fillStyle = "rgb(1, 183, 255)"
+  ctx.font = "30px Roboto Condensed"
+  ctx.fillText(`HIGH SCORE: ${highScore} `, 510, 100)
   ctx.fillStyle = "black"
-  ctx.font = "30px Arial"
-  ctx.fillText(`HIGH SCORE: ${highScore} `, 730, 550)
-  ctx.fillText(`SHOT CLOCK: ${shotClock} `, 710, 70)
+  ctx.fillText(`SHOT CLOCK: ${shotClock} `, 510, 70)
 }
+
 // drawBackground();
 
 const basketballImg = new Image();
@@ -64,12 +79,16 @@ courtImg.onload = function(){
   
 }
 
+
+
+
 // Moving the hoop!
 // ----------------
 
 let hoopUp = false;
 let hoopDown = false;
 
+// on key down:
 document.onkeydown = function(event){
   // check console inspector to find keyCode
   console.log(event.keyCode);
@@ -97,11 +116,12 @@ document.onkeydown = function(event){
   }
   // console.log("hoopX: ", hoopX, "hoopY: ", hoopY);
 }
+// on key up:
 document.onkeyup = function(event){
   // check console inspector to find keyCode
   console.log(event.keyCode);
   let i = 0;
-
+  // on key up:
   switch(event.keyCode){
     // // left:
     // case 37:
@@ -124,8 +144,12 @@ document.onkeyup = function(event){
   }
 }
 
+
+
+
 // Animate the Canvas / Basketball Court:
 // --------------------------------------
+
 function drawingLoop(){
   // clear canvas
   ctx.clearRect(0, 0, 1000, 600);
@@ -144,8 +168,6 @@ function drawingLoop(){
     hoopY += 8};
     break;
   } 
-  
-
   // once the basketball disappears from the canvas, 
   // enter new balls randomly:
   if(basketballX < -33){
@@ -164,6 +186,9 @@ function drawingLoop(){
   }
 }
 
+
+
+
 function drawEverything(){
   // ctx.drawImage(whichImg, imgX, imgY, width, height)
   ctx.drawImage(basketballImg, basketballX, basketballY, 33, 33);
@@ -177,13 +202,19 @@ function drawEverything(){
   }
 }
 
-// when scoring a swish. This is a true or false function
+
+
+
+// scoring a swish. This is a true or false function
 function swishCollision(obj1X, obj1Y, obj2X, obj2Y, bottomY, topY){
   // hoopY + hoopY-length >= basketballY && hoopY + hoopY-length <= basketballY
   return obj1Y + bottomY >= obj2Y && obj1Y + topY <= obj2Y 
   // hoopX + hoopX-length >= basketballX && hoopX + hoopX-length <= basketballX
     && obj1X + 110 >= obj2X && obj1X + 100 <= obj2X
 }
+
+
+
 
 function gameOver(){
   // clear canvas to stop receiving basketballs
@@ -193,30 +224,28 @@ function gameOver(){
   // create Sadbron face image
   const sadbronImg = new Image();
   sadbronImg.src = "./images/sadbron.png";
-  
-
   // change the value of timeOut to true
   timeOut = true;
   // display Game Over
   setTimeout(function(){
-  ctx.font = "bold 50px Roboto Condensed";
-  ctx.fillStyle = "rgb(1, 183, 255)";
-  ctx.fillText("GAME OVER", 375, 90);
+  ctx.font = "bold 30px Roboto Condensed";
+  ctx.fillStyle = "rgb(230, 67, 135)";
+  ctx.fillText("GAME OVER", 510, 130);
   ctx.drawImage(sadbronImg, 350, 130, 300, 400);
   }, 300)
-  
-  // sadbronImg.onload = function(){
-    
-  // }
 }
 
-// call drawingLoop(); to activate/start looping!
-// drawBackground();
-// drawingLoop();
+
+
 
 // JUMP BALL! BUTTON (Start Game)
 // ------------------------------
-let button = document.getElementById("button");
-button.onclick = drawingLoop;
 
-// found bug of shot clock running prior to clicking on Jump Ball!
+// call drawingLoop(); to activate/start looping!
+// call shotClockTimer(); to begin count down!
+function startGame(){
+  drawingLoop();
+  shotClockTimer();
+}
+let button = document.getElementById("button");
+button.onclick = startGame;
