@@ -87,10 +87,8 @@ h5 {
 }
 
 .quote {
-  /* font-size: 2.5em; */
-  /* position: absolute; */
+  font-size: 1.5em;
   left: 10%;
-  bottom: 15vh;
   color: white;
 }
 
